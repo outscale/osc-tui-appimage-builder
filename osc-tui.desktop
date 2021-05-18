@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=osc-tui
+Exec=osc-tui
+Comment=Outscale TUI
+Icon=python
+Categories=Development;
+Terminal=true

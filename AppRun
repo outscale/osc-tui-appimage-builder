@@ -1,0 +1,39 @@
+#! /bin/bash
+
+# Export APPRUN if running from an extracted image
+self="$(readlink -f -- $0)"
+here="${self%/*}"
+APPDIR="${APPDIR:-${here}}"
+
+# Export TCl/Tk
+export TCL_LIBRARY="${APPDIR}/usr/share/tcltk/tcl8.5"
+export TK_LIBRARY="${APPDIR}/usr/share/tcltk/tk8.5"
+export TKPATH="${TK_LIBRARY}"
+
+# Export SSL certificate
+export SSL_CERT_FILE="${APPDIR}/opt/_internal/certs.pem"
+
+export LC_ALL=C
+
+export LD_LIBRARY_PATH=${APPDIR}/usr/lib/
+export TERMINFO=${APPDIR}
+
+${APPDIR}/usr/bin/infocmp &> /dev/null
+if [ $? -ne 0 ]; then
+    TERM="rxvt"
+    ${APPDIR}/usr/bin/infocmp &> /dev/null
+    if [ $? -ne 0 ]; then
+	TERM="linux"
+	${APPDIR}/usr/bin/infocmp &> /dev/null
+	if [ $? -ne 0 ]; then
+	    TERM="xterm"
+	fi
+    fi
+fi
+
+echo Use term $TERM
+export TERM=$TERM
+
+# Call the entry point
+#! /bin/bash
+${APPDIR}/usr/bin/python3.9 "${APPDIR}/opt/python3.9/bin/osc-tui" "$@"
