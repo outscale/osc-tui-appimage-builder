@@ -20,18 +20,9 @@ export TERMINFO=${APPDIR}
 
 ${APPDIR}/usr/bin/infocmp &> /dev/null
 if [ $? -ne 0 ]; then
-    TERM="rxvt"
-    ${APPDIR}/usr/bin/infocmp &> /dev/null
-    if [ $? -ne 0 ]; then
-	TERM="linux"
-	${APPDIR}/usr/bin/infocmp &> /dev/null
-	if [ $? -ne 0 ]; then
-	    TERM="xterm"
-	fi
-    fi
+    TERM="xterm"
 fi
 
-echo Use term $TERM
 export TERM=$TERM
 
 # Call the entry point
