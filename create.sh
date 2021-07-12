@@ -2,7 +2,7 @@
 
 ./clean.sh
 
-TARGET="python3.9.5-cp39-cp39-manylinux1_x86_64.AppImage"
+TARGET="python3.9.6-cp39-cp39-manylinux1_x86_64.AppImage"
 
 wget https://github.com/niess/python-appimage/releases/download/python3.9/$TARGET
 
