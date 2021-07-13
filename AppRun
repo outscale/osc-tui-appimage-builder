@@ -27,4 +27,4 @@ export TERM=$TERM
 
 # Call the entry point
 #! /bin/bash
-${APPDIR}/usr/bin/python3.9 "${APPDIR}/opt/python3.9/bin/osc-tui" "$@"
+PYTHONHOME="${APPDIR}/opt/python3.9"  ${APPDIR}/usr/bin/python3.9 "${APPDIR}/opt/python3.9/bin/osc-tui" "$@"

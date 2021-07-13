@@ -2,9 +2,14 @@
 
 ./clean.sh
 
-TARGET="python3.9.6-cp39-cp39-manylinux1_x86_64.AppImage"
+PY_MAJ="3.9"
+PY_MIN="6"
+PY_NAME="python$PY_MAJ"
+PYCP=cp39
 
-wget https://github.com/niess/python-appimage/releases/download/python3.9/$TARGET
+TARGET="$PY_NAME.$PY_MIN-$PYCP-$PYCP-manylinux1_x86_64.AppImage"
+
+wget https://github.com/niess/python-appimage/releases/download/$PY_NAME/$TARGET
 
 chmod +x ./$TARGET
 ./$TARGET --appimage-extract
@@ -16,26 +21,33 @@ cp ./AppRun osc-tui.AppDir/
 git clone https://github.com/outscale/osc-sdk-python.git
 cd osc-sdk-python
 git submodule update --init
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/python3.9/ --optimize=1
+../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
 git clone https://github.com/asweigart/pyperclip.git
 cd pyperclip
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/python3.9/ --optimize=1
+../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
 git clone https://github.com/npcole/npyscreen
 cd npyscreen
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/python3.9/ --optimize=1
+../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
 git clone https://github.com/outscale-dev/osc-tui.git
 cd osc-tui
 ./configure.sh --release
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/python3.9/ --optimize=1
+../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
-rm  osc-tui.AppDir/python3.9.5.desktop
+cd ./osc-tui.AppDir
+PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps urllib3
+PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps requests
+PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps chardet
+PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps idna==2.9
+cd ..
+
+rm  osc-tui.AppDir/$PY_NAME.$PY_MIN.desktop
 cp osc-tui.desktop osc-tui.AppDir
 cp libncursesw.so.5 osc-tui.AppDir/usr/lib
 cp libtinfo.so.5 osc-tui.AppDir/usr/lib
