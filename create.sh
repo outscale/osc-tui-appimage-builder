@@ -5,12 +5,12 @@ PY_NAME="python$PY_MAJ"
 APPIMAGETOOL=appimagetool
 
 for arg in $@; do
-    print $arg
     if [ "--help" = $arg ]; then
-	echo "./configure:"
-	echo "--helplike seriously ?"
-	echo "--py3_ver=X.X choose python3 version (example 3.9)"
-	echo "--wget-appimagetool: download appimagetool"
+	echo "Usage: ./create.sh: [OTPION]"
+	echo "--help			like seriously ?"
+	echo "--py3_ver=X.X		choose python3 version (example 3.9)"
+	echo "--wget-appimagetool	download appimagetool"
+	echo "--source-path		why do you need help, when the name is explicit enough?"
 	exit 0
     fi
     if [ "--py3_ver" = $( echo "$arg" | cut -d '=' -f 1) ]; then
@@ -23,7 +23,9 @@ for arg in $@; do
 	chmod +x appimagetool-x86_64.AppImage
 	APPIMAGETOOL=./appimagetool-x86_64.AppImage
     fi
-
+    if [ "--source-path" = $( echo "$arg" | cut -d '=' -f 1) ]; then
+	OSC_TUI_PATH=$( echo $arg | cut -f 2 -d '=' )
+    fi
 done
 
 ./clean.sh
@@ -55,11 +57,16 @@ cd npyscreen
 ../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
+
+if [ -z "$OSC_TUI_PATH" ]; then
 git clone https://github.com/outscale-dev/osc-tui.git
 cd osc-tui
+else
+cd $OSC_TUI_PATH
+fi
 ./configure.sh --release
 ../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
-cd ../
+cd -
 
 cd ./osc-tui.AppDir
 PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps urllib3
