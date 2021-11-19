@@ -1,7 +1,6 @@
 #!/bin/sh
 
 PY_MAJ="3.9"
-PY_NAME="python$PY_MAJ"
 APPIMAGETOOL=appimagetool
 
 for arg in $@; do
@@ -28,6 +27,8 @@ for arg in $@; do
     fi
 done
 
+PY_NAME="python$PY_MAJ"
+
 ./clean.sh
 
 TARGET=$(curl --silent "https://api.github.com/repos/niess/python-appimage/releases" | grep AppImage | grep $PY_MAJ | grep manylinux1_x86_64 | grep name | cut -d '"' -f 4)
@@ -39,6 +40,8 @@ chmod +x ./$TARGET
 mv squashfs-root/ osc-tui.AppDir
 
 APPDIR_PATH=$PWD/osc-tui.AppDir/
+
+echo "export PY_NAME=$PY_NAME" > $APPDIR_PATH/sh_cfg
 
 cp ./AppRun-py $APPDIR_PATH/AppRun-py
 cp ./AppRun $APPDIR_PATH
@@ -67,7 +70,7 @@ else
 cd $OSC_TUI_PATH
 fi
 ./configure.sh --release
-$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+$APPDIR_PATH/AppRun-py setup.py install --prefix=$APPDIR_PATH/opt/$PY_NAME/ --optimize=1
 ./configure.sh --dev # done as this os osc-tui default state
 cd -
 

@@ -5,6 +5,8 @@ self="$(readlink -f -- $0)"
 here="${self%/*}"
 APPDIR="${APPDIR:-${here}}"
 
+source "${APPDIR}/sh_cfg"
+
 # Export TCl/Tk
 export TCL_LIBRARY="${APPDIR}/usr/share/tcltk/tcl8.4"
 export TK_LIBRARY="${APPDIR}/usr/share/tcltk/tk8.4"
@@ -20,14 +22,14 @@ do
     if [[ "${opt}" =~ "I" ]] || [[ "${opt}" =~ "E" ]]; then
         # Environment variables are disabled ($PYTHONHOME). Let's run in a safe
         # mode from the raw Python binary inside the AppImage
-        "$APPDIR/opt/python3.9/bin/python3.9" "$@"
+        "$APPDIR/opt/$PY_NAME/bin/$PY_NAME" "$@"
         exit "$?"
     fi
 done
 
 # Get the executable name, i.e. the AppImage or the python binary if running from an
 # extracted image
-executable="${APPDIR}/opt/python3.9/bin/python3.9"
+executable="${APPDIR}/opt/$PY_NAME/bin/$PY_NAME"
 if [[ "${ARGV0}" =~ "/" ]]; then
     executable="$(cd $(dirname ${ARGV0}) && pwd)/$(basename ${ARGV0})"
 elif [[ "${ARGV0}" != "" ]]; then
@@ -39,6 +41,6 @@ export LD_LIBRARY_PATH="${APPDIR}/usr/lib"
 # Wrap the call to Python in order to mimic a call from the source
 # executable ($ARGV0), but potentially located outside of the Python
 # install ($PYTHONHOME)
-(PYTHONHOME="${APPDIR}/opt/python3.9" exec -a "${executable}" "$APPDIR/opt/python3.9/bin/python3.9" "$@")
+(PYTHONHOME="${APPDIR}/opt/$PY_NAME" exec -a "${executable}" "$APPDIR/opt/$PY_NAME/bin/$PY_NAME" "$@")
 exit "$?"
 
