@@ -38,23 +38,25 @@ chmod +x ./$TARGET
 ./$TARGET --appimage-extract
 mv squashfs-root/ osc-tui.AppDir
 
-cp ./AppRun-py osc-tui.AppDir/AppRun-py
-cp ./AppRun osc-tui.AppDir/
+APPDIR_PATH=$PWD/osc-tui.AppDir/
+
+cp ./AppRun-py $APPDIR_PATH/AppRun-py
+cp ./AppRun $APPDIR_PATH
 
 git clone https://github.com/outscale/osc-sdk-python.git
 cd osc-sdk-python
 git submodule update --init
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
 git clone https://github.com/asweigart/pyperclip.git
 cd pyperclip
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
 git clone https://github.com/outscale-mgo/npyscreen
 cd npyscreen
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
 
@@ -65,10 +67,11 @@ else
 cd $OSC_TUI_PATH
 fi
 ./configure.sh --release
-../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+./configure.sh --dev # done as this os osc-tui default state
 cd -
 
-cd ./osc-tui.AppDir
+cd $APPDIR_PATH
 PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps urllib3
 PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps requests
 PIP_CONFIG_FILE=/dev/null usr/bin/pip$PY_MAJ install --isolated --root="" --ignore-installed --no-deps chardet
