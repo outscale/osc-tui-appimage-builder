@@ -3,11 +3,9 @@
 ./clean.sh
 
 PY_MAJ="3.9"
-PY_MIN="6"
 PY_NAME="python$PY_MAJ"
-PYCP=cp39
 
-TARGET="$PY_NAME.$PY_MIN-$PYCP-$PYCP-manylinux1_x86_64.AppImage"
+TARGET=$(curl --silent "https://api.github.com/repos/niess/python-appimage/releases" | grep AppImage | grep $PY_MAJ | grep manylinux1_x86_64 | grep name | cut -d '"' -f 4)
 
 wget https://github.com/niess/python-appimage/releases/download/$PY_NAME/$TARGET
 
@@ -29,7 +27,7 @@ cd pyperclip
 ../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
-git clone https://github.com/npcole/npyscreen
+git clone https://github.com/outscale-mgo/npyscreen
 cd npyscreen
 ../osc-tui.AppDir/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
