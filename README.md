@@ -15,4 +15,4 @@ clean file and old appimage
 
 ## contribution
 
-We accept Pull Request and issues :)
+We accept Pull Requests and issues :)
