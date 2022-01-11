@@ -12,3 +12,7 @@ clean file and old appimage
 ```
 ./clean.sh
 ```
+
+## contribution
+
+We accept Pull Request and issues :)
