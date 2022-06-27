@@ -2,19 +2,25 @@
 
 PY_MAJ="3.9"
 APPIMAGETOOL=appimagetool
+LINUX_OLDNES=2010
 
 for arg in $@; do
     if [ "--help" = $arg ]; then
 	echo "Usage: ./create.sh: [OTPION]"
-	echo "--help			like seriously ?"
-	echo "--py3_ver=X.X		choose python3 version (example 3.9)"
-	echo "--wget-appimagetool	download appimagetool"
-	echo "--source-path		why do you need help, when the name is explicit enough?"
+	echo "--help				like seriously ?"
+	echo "--py3_ver=X.X			choose python3 version (example 3.9)"
+	echo "--linux-oldness=1|2010|2014	which linux to target, 1 is the olderst, but not present for every versions"
+	echo "--wget-appimagetool		download appimagetool"
+	echo "--source-path			why do you need help, when the name is explicit enough?"
 	exit 0
     fi
     if [ "--py3_ver" = $( echo "$arg" | cut -d '=' -f 1) ]; then
 	PY_MAJ=$( echo $arg | cut -f 2 -d '=' )
 	echo "python versio to use: " $PY_MAJ
+    fi
+    if [ "--linux-oldness" = $( echo "$arg" | cut -d '=' -f 1) ]; then
+	LINUX_OLDNES=$( echo $arg | cut -f 2 -d '=' )
+	echo "which linux to target: " $PY_MAJ
     fi
     if [ "--wget-appimagetool" = $arg ]; then
 	rm -vf appimagetool-x86_64.AppImage
@@ -31,7 +37,7 @@ PY_NAME="python$PY_MAJ"
 
 ./clean.sh
 
-TARGET=$(curl --silent "https://api.github.com/repos/niess/python-appimage/releases" | grep AppImage | grep $PY_MAJ | grep manylinux1_x86_64 | grep name | cut -d '"' -f 4)
+TARGET=$(curl --silent "https://api.github.com/repos/niess/python-appimage/releases" | grep AppImage | grep $PY_MAJ | grep manylinux${LINUX_OLDNES}_x86_64 | grep name | cut -d '"' -f 4)
 
 wget https://github.com/niess/python-appimage/releases/download/$PY_NAME/$TARGET
 
