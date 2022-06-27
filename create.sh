@@ -43,7 +43,12 @@ APPDIR_PATH=$PWD/osc-tui.AppDir/
 
 echo "export PY_NAME=$PY_NAME" > $APPDIR_PATH/sh_cfg
 
-cp ./AppRun-py $APPDIR_PATH/AppRun-py
+rm $APPDIR_PATH/usr/bin/python3.9
+rm $APPDIR_PATH/AppRun
+
+cd $APPDIR_PATH/usr/bin/ && ln -s ../../opt/python3.9/bin/python3.9 python3.9 && cd -
+
+cp -v ./AppRun-py $APPDIR_PATH/AppRun-py
 cp ./AppRun $APPDIR_PATH
 
 git clone https://github.com/outscale/osc-sdk-python.git
@@ -71,7 +76,7 @@ cd $OSC_TUI_PATH
 fi
 ./configure.sh --release
 $APPDIR_PATH/AppRun-py setup.py install --prefix=$APPDIR_PATH/opt/$PY_NAME/ --optimize=1
-./configure.sh --dev # done as this os osc-tui default state
+./configure.sh --dev # done as this is osc-tui default state
 cd -
 
 cd $APPDIR_PATH
