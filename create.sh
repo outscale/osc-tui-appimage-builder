@@ -62,7 +62,7 @@ cd pyperclip
 $APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
-git clone https://github.com/outscale-mgo/npyscreen
+git clone https://github.com/outscale/npyscreen
 cd npyscreen
 $APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../

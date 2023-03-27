@@ -29,4 +29,4 @@ export TERM=$TERM
 
 # Call the entry point
 #! /bin/bash
-PYTHONHOME="${APPDIR}/opt/$PY_NAME"  ${APPDIR}/usr/bin/$PY_NAME "${APPDIR}/opt/$PY_NAME/bin/osc-tui" "$@"
+PYTHONHOME="${APPDIR}/opt/$PY_NAME"  ${APPDIR}/usr/bin/$PY_NAME "${APPDIR}/opt/$PY_NAME/bin/osc-tui" --ascii-logo "$@"
