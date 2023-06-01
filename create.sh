@@ -78,9 +78,7 @@ cd osc-tui
 else
 cd $OSC_TUI_PATH
 fi
-./configure.sh --release
 $APPDIR_PATH/AppRun-py setup.py install --prefix=$APPDIR_PATH/opt/$PY_NAME/ --optimize=1
-./configure.sh --dev # done as this is osc-tui default state
 cd -
 
 cd $APPDIR_PATH
