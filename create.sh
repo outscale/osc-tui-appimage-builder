@@ -67,6 +67,10 @@ cd npyscreen
 $APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
 cd ../
 
+git clone https://github.com/outscale-mgo/osc-diagram.git
+cd osc-diagram
+$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
+cd ../
 
 if [ -z "$OSC_TUI_PATH" ]; then
 git clone https://github.com/outscale-dev/osc-tui.git
