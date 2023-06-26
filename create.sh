@@ -31,7 +31,7 @@ PY_NAME="python$PY_MAJ"
 
 ./clean.sh
 
-TARGET=$(curl --silent "https://api.github.com/repos/niess/python-appimage/releases" | grep AppImage | grep $PY_MAJ | grep manylinux1_x86_64 | grep name | cut -d '"' -f 4)
+TARGET=$(curl --silent "https://api.github.com/repos/niess/python-appimage/releases" | grep AppImage | grep $PY_MAJ | grep manylinux2014_x86_64 | grep name | cut -d '"' -f 4)
 
 wget https://github.com/niess/python-appimage/releases/download/$PY_NAME/$TARGET
 
@@ -50,12 +50,6 @@ cd $APPDIR_PATH/usr/bin/ && ln -s ../../opt/python3.9/bin/python3.9 python3.9 &&
 
 cp -v ./AppRun-py $APPDIR_PATH/AppRun-py
 cp ./AppRun $APPDIR_PATH
-
-git clone https://github.com/outscale/osc-sdk-python.git
-cd osc-sdk-python
-git submodule update --init
-$APPDIR_PATH/AppRun-py setup.py install --prefix=../osc-tui.AppDir/opt/$PY_NAME/ --optimize=1
-cd ../
 
 git clone https://github.com/asweigart/pyperclip.git
 cd pyperclip
